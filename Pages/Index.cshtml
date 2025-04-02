@@ -1,10 +1,107 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "FizzBuzz Demo";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <h1 class="mt-4 mb-4">FizzBuzz Algorithm Demonstration</h1>
+
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h2 class="h5 mb-0">What is FizzBuzz?</h2>
+        </div>
+        <div class="card-body">
+            <p>FizzBuzz is a common programming task used in software development interviews. The rules are simple:</p>
+            <ul>
+                <li>For numbers divisible by 3, print "Fizz" instead of the number</li>
+                <li>For numbers divisible by 5, print "Buzz" instead of the number</li>
+                <li>For numbers divisible by both 3 and 5, print "FizzBuzz" instead of the number</li>
+                <li>For all other numbers, print the number itself</li>
+            </ul>
+            <p>This task tests a programmer's ability to handle conditional logic and is often used to filter out candidates who struggle with basic programming concepts.</p>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h2 class="h5 mb-0">Try It Yourself</h2>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Start" class="control-label"></label>
+                            <input asp-for="Start" class="form-control" />
+                            <span asp-validation-for="Start" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="End" class="control-label"></label>
+                            <input asp-for="End" class="form-control" />
+                            <span asp-validation-for="End" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Calculate FizzBuzz</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @if (Model.Results != null && Model.Results.Any())
+    {
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h2 class="h5 mb-0">FizzBuzz Results (Range: @Model.Start to @Model.End)</h2>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Number</th>
+                                <th>Result</th>
+                                <th>Explanation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var result in Model.Results)
+                            {
+                                <tr>
+                                    <td>@result.Number</td>
+                                    <td>
+                                        @if (result.IsFizzBuzz)
+                                        {
+                                            <span class="badge bg-primary">@result.Output</span>
+                                        }
+                                        else if (result.IsFizz)
+                                        {
+                                            <span class="badge bg-success">@result.Output</span>
+                                        }
+                                        else if (result.IsBuzz)
+                                        {
+                                            <span class="badge bg-warning text-dark">@result.Output</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@result.Output</span>
+                                        }
+                                    </td>
+                                    <td>@result.Explanation</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
